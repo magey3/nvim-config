@@ -1,0 +1,93 @@
+$jet: rgba(42, 42, 42, 1);
+$jet-highlight: rgba(50, 50, 50, 1);
+$linen: rgba(254, 239, 229, 1);
+$light-sea-green: rgba(46, 196, 182, 1);
+$red-pantone: rgba(231, 29, 54, 1);
+$yellow-green: rgba(170, 217, 34, 1);
+
+$one: #ff3ac6;
+$two: #5fa41c;
+$three: #009b00;
+$four: #ff1a00;
+
+* {
+    all: unset;
+}
+
+.bar {
+    background-color: $jet;
+    padding: 5px;
+}
+
+.icon {
+    font-family: 'Hack Nerd Font Mono';
+    font-size: 24px;
+}
+
+.workspace {
+    border: 1px solid $linen;
+    //border-right: 2px solid $linen;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+.debug {
+    background-color: $red-pantone;
+}
+
+.workspace-selected {
+    //background-color: $red-pantone;
+    border: 1px solid $four;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+.workspace-selected-alt {
+    background-color: $four;
+    border: 1px solid $linen;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    color: $four;
+}
+
+.runner {
+    background-color: $jet;
+    border: 1px solid $linen;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.pretty-input {
+    background-color: $jet;
+    border: 1px solid $four;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.runner-option {
+    background-color: $jet;
+    border: 1px solid $linen;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.metric2 scale trough highlight {
+    background-color: $four;
+    border-radius: 10px;
+}
+.metric2 scale trough {
+    color: $four;
+    background-color: rgba($linen, 0.4);
+    min-width: 173px;
+    min-height: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+

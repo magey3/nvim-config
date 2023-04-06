@@ -1,0 +1,164 @@
+(defwindow example
+ :monitor 0
+ :geometry (geometry :x "0%"
+     :y "0px"
+     :width "100%"
+     :height "40px"
+     :anchor "bottom center")
+ :stacking "bg"
+ :reserve (struts :distance "40px" :side "bottom")
+ :windowtype "dock"
+ :wm-ignore false
+ :exclusive true
+ (bar))
+
+(defwidget bar []
+ (centerbox
+  :class "bar"
+  :height 40
+  (left)
+  (center)
+  (right)))
+
+(defvar workspacelist "[]")
+
+(defpoll time :interval "15s" :initial "12:04" "date +%H:%M")
+
+(defwidget left [] (box (workspaces)))
+(defwidget center []
+ (box
+  (music)))
+(defwidget right []
+ (box :halign "end"
+  :space-evenly false
+  :spacing 10
+  (disk-usage)
+  (sound)
+  (cpu)
+  (ram)
+  (wifi)
+  (battery)
+  (timedate)))
+
+(defwidget workspaces []
+ (box :space-evenly false
+  :spacing 5
+  (for workspace in workspacelist
+    (workspace
+     :number {workspace.name}
+     :icons {workspace.icons}
+     :selected {workspace.selected}))))
+
+(defwidget workspace [number icons selected]
+ (button
+  :onclick "bspc desktop -f ${number}"
+  (box :space-evenly false
+   :spacing 10
+   :class {selected ? "workspace-selected" : "workspace"}
+   number
+   (for icon in icons
+    (label :class "icon" :text icon)))))
+
+(defwidget timedate []
+ (box
+  :width 60
+  :class "workspace"
+  (label :halign "center" :text time)))
+
+(defwidget battery []
+ (box
+  :class "workspace"
+  (label :halign "center" :text "${EWW_BATTERY["BAT0"].capacity}%")))
+
+(defvar ram-symbol "")
+
+(defwidget ram []
+ (box
+  :space-evenly false
+  :spacing 5
+  :class "workspace"
+  (label :halign "start" :class "icon" :text ram-symbol)
+  (label :halign "start" :text "${round(EWW_RAM.used_mem_perc, 0)}%")))
+
+(defvar cpu-symbol "󰍛")
+(defwidget cpu []
+ (box
+  :space-evenly false
+  :spacing 5
+  :class "workspace"
+  (label :class "icon" :text cpu-symbol)
+  (label :halign "center" :text "${round(EWW_CPU.avg, 0)}%")))
+
+(defvar wifi-symbol "󰖩")
+(defvar no-wifi-symbol "󰖪")
+
+
+(defwidget wifi []
+ (box
+  :class "workspace"
+  (label :halign "center" :class "icon" :text {EWW_NET["wlan0"] == "null" ? no-wifi-symbol : wifi-symbol})))
+
+(defvar disk-usage-symbol "")
+(defwidget disk-usage []
+ (box
+  :space-evenly false
+  :spacing 5
+  :class "workspace"
+  (label :class "icon" :text disk-usage-symbol)
+  (label :halign "center" :text "${round(EWW_DISK["/"].used_perc, 0)}%")))
+
+(defpoll volume
+ :interval "1s"
+ :initial "0.5"
+ "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 9-")
+
+(defvar volume-symbol "")
+(defwidget sound []
+ (box
+  :class "workspace"
+  (label :class "icon" :text volume-symbol)
+  (label :halign "center" :text "${round(volume ?: 0.5, 2) * 100}%")))
+
+
+(defvar play-symbol "")
+(defvar pause-symbol "")
+(defvar last-symbol "")
+(defvar next-symbol "")
+
+(defvar playing false)
+(defpoll music-progress
+ :initial "0"
+ :interval "5s"
+ "scripts/mpdprogress")
+
+(defwidget music []
+ (box
+  :class "workspace"
+  :space-evenly false
+  :spacing 10
+  (iconbutton :icon last-symbol :onclick "mpc prev")
+  (iconbutton
+   :icon {playing ? pause-symbol : play-symbol}
+   :onclick "mpc ${playing ? "pause" : "play"} && eww update playing=${!playing}")
+  (iconbutton :icon next-symbol :onclick "mpc next")
+  (music-slider)))
+
+(defwidget music-slider []
+ (box
+  :class "metric2"
+  :space-evenly false
+  :spacing 5
+  (scale
+   :min 0
+   :max 101
+   :value music-progress
+   :valign "center"
+   :onchange "mpc seek {}%; eww update music-progress={}"
+   :orientation "h")
+  (label :text "${music-progress}%")))
+
+(defwidget iconbutton [icon ?onclick]
+ (eventbox
+  :class "button"
+  :onclick onclick
+  (label :class "icon" :text icon)))

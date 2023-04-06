@@ -1,0 +1,37 @@
+(defwindow runner
+ :monitor 0
+ :geometry (geometry
+            :x "0"
+            :y "0"
+            :width "20%"
+            :height "40%"
+            :anchor "center")
+ :stacking "fg"
+ :windowtype "dialog"
+ :wmignore "false"
+ :focusable true
+ (runner))
+
+(defvar runner-options "hello wrold")
+
+(defwidget runner []
+ (box
+  :class "runner"
+  :orientation "v"
+  :space-evenly false
+  :spacing 5
+  (pretty-input
+   :onchange "scripts/runner {}"
+   :onaccept "${runner-options[0]} && eww close runner")
+  (for option in runner-options
+   (runner-option :text option))))
+
+(defwidget pretty-input [?onchange ?onaccept]
+ (input
+  :class "pretty-input"
+  :onchange onchange
+  :onaccept onaccept))
+
+(defwidget runner-option [text]
+ (box :class "runner-option"
+  (label :text text)))

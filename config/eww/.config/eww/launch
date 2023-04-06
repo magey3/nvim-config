@@ -1,0 +1,6 @@
+#!/bin/sh
+
+mkdir -p ~/.local/share/eww
+#eww open example &
+#bspc subscribe node_add node_remove desktop_focus | ~/.config/eww/scripts/workspace.py 2>&1 > ~/.local/share/eww/workspace.log &
+eww daemon && eww open example && ~/.config/eww/scripts/workspaces_hyperland 2> /dev/null &

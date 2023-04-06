@@ -1,0 +1,5 @@
+#!/bin/sh
+
+OPTIONS=$(compgen -c | sort | uniq | fzy -e $1 | head -10 | jq -R -s -c 'split("\n")' | jq -c '.[:-1]')
+
+eww update runner-options="$OPTIONS"

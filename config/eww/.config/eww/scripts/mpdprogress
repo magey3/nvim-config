@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mpc status | sed -E -n 's/.*\((.*)%\).*$/\1/p'
