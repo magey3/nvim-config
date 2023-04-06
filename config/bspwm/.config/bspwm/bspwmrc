@@ -21,7 +21,12 @@ bspc rule -a LaunchMenu state=floating focus=on
 
 setxkbmap -option caps:swapescape -layout us,sk -variant ,qwerty
 
-polybar example &
+pipewire &
+pipewire-pulse &
+wireplumber &
+#polybar example &
+eww daemon &
+~/.config/eww/launch &
 feh --bg-fill ~/.wallpapers/windowsxp.webp &
 syncthing -no-browser &
 keepassxc &

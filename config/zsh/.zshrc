@@ -4,8 +4,6 @@ export PATH=$HOME/.local/bin/:$HOME/.cargo/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-export XDG_CONFIG_HOME=".config"
-
 alias emacsclient='emacsclient -c'
 
 # Set name of the theme to load --- if set to "random", it will

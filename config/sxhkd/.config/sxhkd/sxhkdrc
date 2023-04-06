@@ -2,6 +2,14 @@
 # wm independent hotkeys
 #
 
+XF86AudioLowerVolume
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
+XF86AudioRaiseVolume 
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+
+
+XF86AudioMute 
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
 XF86MonBrightnessUp
 	lux -a 5%
 
@@ -23,7 +31,7 @@ super + Return
 
 # program launcher
 super + @space
-	dmenu_run
+    eww open runner
 
 # make sxhkd reload its configuration files:
 super + Escape
